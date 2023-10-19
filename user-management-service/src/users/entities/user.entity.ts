@@ -1,3 +1,4 @@
+import { EGender } from 'src/constants/enums';
 import {
   Entity,
   Column,
@@ -14,11 +15,6 @@ const dateColumnsOptions = {
     to: (value) => value,
   },
 } as ColumnOptions;
-
-enum EGender {
-  MALE = 'male',
-  FEMALE = 'female',
-}
 
 @Entity()
 export class User {
