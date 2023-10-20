@@ -2,6 +2,7 @@ import { Router } from './router.js';
 import { createServer } from 'http';
 import { URL } from 'url';
 import 'dotenv/config.js';
+import { ResourceNotFoundError, InternalError, CustomError } from './errors/index.js';
 
 export class CustomServer {
   routes;
@@ -26,7 +27,7 @@ export class CustomServer {
         const route = this.routes.find(r =>
           pathname === r.url && method === r.method);
         if (!route) {
-          throw new Error({ message: 'Resource not found', statusCode: 404 });
+          throw new ResourceNotFoundError();
         }
         const data = await route.callback(baseURL, request);
         response.writeHead(200);
@@ -49,7 +50,7 @@ export class CustomServer {
   }
 
   get(url, conroller, method = 'GET') {
-    const router = new Router(url, conroller.handle, method);
+    const router = new Router(url, conroller.handle.bind(conroller), method);
     this.routes.push(router);
   }
 
@@ -58,6 +59,10 @@ export class CustomServer {
   }
 
   handlerError(error) {
-    return { statusCode: error.statusCode || 500, errorMessge: error.message || 'Internal server error' };
+    if (error instanceof CustomError) {
+      return { statusCode: error.statusCode, errorMessge: error.message };
+    } else {
+      return { statusCode: InternalError.statusCode, errorMessge: InternalError.message };
+    }
   }
 }
