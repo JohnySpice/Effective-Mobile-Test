@@ -1,4 +1,4 @@
-import { CustomError } from "./index.js";
+import { CustomError } from './index.js';
 
 export class InternalError extends CustomError {
   static message = 'Internal Error';

@@ -2,7 +2,11 @@ import { Router } from './router.js';
 import { createServer } from 'http';
 import { URL } from 'url';
 import 'dotenv/config.js';
-import { ResourceNotFoundError, InternalError, CustomError } from './errors/index.js';
+import {
+  ResourceNotFoundError,
+  InternalError,
+  CustomError,
+} from './errors/index.js';
 
 export class CustomServer {
   routes;
@@ -24,8 +28,9 @@ export class CustomServer {
         const method = request.method || '';
         const baseURL = 'http://' + request.headers.host + request.url;
         const pathname = this.parseUrl(baseURL);
-        const route = this.routes.find(r =>
-          pathname === r.url && method === r.method);
+        const route = this.routes.find(
+          (r) => pathname === r.url && method === r.method,
+        );
         if (!route) {
           throw new ResourceNotFoundError();
         }
@@ -38,10 +43,9 @@ export class CustomServer {
         response.writeHead(statusCode);
         response.end(JSON.stringify({ result: errorMessge }));
       }
-    })
-      .listen(this.PORT, () => {
-        console.log(`Server started at port: ${this.PORT}`);
-      });
+    }).listen(this.PORT, () => {
+      console.log(`Server started at port: ${this.PORT}`);
+    });
   }
 
   parseUrl(requestUrl) {
@@ -62,7 +66,10 @@ export class CustomServer {
     if (error instanceof CustomError) {
       return { statusCode: error.statusCode, errorMessge: error.message };
     } else {
-      return { statusCode: InternalError.statusCode, errorMessge: InternalError.message };
+      return {
+        statusCode: InternalError.statusCode,
+        errorMessge: InternalError.message,
+      };
     }
   }
 }

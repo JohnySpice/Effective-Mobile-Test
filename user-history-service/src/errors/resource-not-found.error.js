@@ -1,4 +1,4 @@
-import { CustomError } from "./index.js";
+import { CustomError } from './index.js';
 
 export class ResourceNotFoundError extends CustomError {
   static message = 'Requested resourse not found';

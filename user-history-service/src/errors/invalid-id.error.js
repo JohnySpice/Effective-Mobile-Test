@@ -1,4 +1,4 @@
-import { CustomError } from "./index.js";
+import { CustomError } from './index.js';
 
 export class InvalidIdError extends CustomError {
   static message = 'Invalid user id';

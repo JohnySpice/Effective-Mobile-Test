@@ -9,7 +9,7 @@ export async function findAll(params) {
   const skip = params.offset > maxLimit ? defaultLimit : params.offset;
   let findOptions = {
     take,
-    skip
+    skip,
   };
   if (params.id) findOptions.where = { id: params.id };
   return userHistoryRep.find(findOptions);
