@@ -1,6 +1,7 @@
 import { Router } from './router.js';
 import { createServer } from 'http';
 import { URL } from 'url';
+import 'dotenv/config.js';
 
 export class CustomServer {
   routes;
