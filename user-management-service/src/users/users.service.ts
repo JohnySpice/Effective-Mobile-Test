@@ -4,11 +4,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { RedisService } from 'src/redis/redis.service';
+import { EEvents } from 'src/constants/enums';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly redisService: RedisService,
   ) {}
   async create(createUserDto: CreateUserDto) {
     const user = new User();
@@ -17,7 +20,15 @@ export class UsersService {
     user.gender = createUserDto.gender;
     user.email = createUserDto.email;
     user.age = createUserDto.age;
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+    this.redisService.pub({
+      userId: user.id,
+      event: EEvents.CREATE,
+      field: null,
+      oldValue: null,
+      newValue: null,
+    });
+    return user;
   }
 
   findAll() {
@@ -36,6 +47,17 @@ export class UsersService {
       id: id,
       ...updateUserDto,
     });
+    Object.entries(updateUserDto).forEach(
+      ([key, value]) =>
+        this.redisService.pub({
+          userId: id,
+          event: EEvents.UPDATE,
+          field: key,
+          oldValue: user[key],
+          newValue: value,
+        }),
+      this,
+    );
     return this.findById(id);
   }
 }
