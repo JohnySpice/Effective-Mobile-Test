@@ -1,0 +1,25 @@
+import Redis from "ioredis";
+import { create } from '../services/user-history.service.js';
+
+export function initializeRedis() {
+  const redis = new Redis();
+
+  redis.subscribe("user-changes", (err, count) => {
+    if (err) {
+      console.error("Failed to subscribe: %s", err.message);
+    } else {
+      console.log(
+        `Subscribed successfully! This client is currently subscribed to ${count} channels.`
+      );
+    }
+  });
+
+  redis.on("message", async (_, message) => {
+    try {
+      const changes = JSON.parse(message);
+      await create(changes);
+    } catch (err) {
+      console.error("Error during writting changes", err.message);
+    }
+  });
+}
