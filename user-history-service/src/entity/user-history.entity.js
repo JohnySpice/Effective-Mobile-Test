@@ -2,25 +2,31 @@ import { EntitySchema } from 'typeorm';
 import { UserEntity } from './user.entity.js';
 
 export const UserHistoryEntity = new EntitySchema({
-  name: 'user_history', // Will use table name `category` as default behaviour.
-  // tableName: "categories", // Optional: Provide `tableName` property to override the default behaviour for table name.
+  name: 'user_history',
   columns: {
     id: {
       primary: true,
       type: 'uuid',
-      generated: true,
+      generated: 'uuid',
     },
     event: {
       type: 'varchar',
-      enum: ['create', 'update'], // create | update
+      enum: ['create', 'update'],
+    },
+    field: {
+      type: 'varchar',
+      length: 32,
+      nullable: true
     },
     oldValue: {
       name: 'old_value',
       type: 'varchar',
+      nullable: true
     },
     newValue: {
       name: 'new_value',
       type: 'varchar',
+      nullable: true
     },
     createdAt: {
       name: 'created_at',
@@ -28,7 +34,7 @@ export const UserHistoryEntity = new EntitySchema({
     },
   },
   relations: {
-    user: {
+    userId: {
       target: UserEntity,
       type: 'many-to-one',
       cascade: 'remove',
