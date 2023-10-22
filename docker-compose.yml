@@ -1,0 +1,69 @@
+services:
+  management-app:
+    build:
+      dockerfile: ./user-management-service/tools/dockerfile
+    restart: on-failure
+    env_file: .env
+    depends_on:
+      - db
+      - redis
+    networks:
+      - internal
+      - backend
+    environment:
+      POSTGRES_HOST: db
+      REDIS_HOST: redis
+    ports:
+      - $PORT_UM:$PORT_UM
+    links:
+      - db
+    command: [sh, -c, "cd /app && npm run migration:run && npm run start"]
+
+  history-app:
+    build:
+      dockerfile: ./user-history-service/tools/dockerfile
+    restart: on-failure
+    env_file: .env
+    depends_on:
+      - db
+      - redis
+    networks:
+      - internal
+      - backend
+    environment:
+      POSTGRES_HOST: db
+      REDIS_HOST: redis
+    ports:
+      - $PORT_UH:$PORT_UH
+    links:
+      - db
+    command: [sh, -c, "cd /app && npm run migration:run && npm run start"]
+
+  db:
+    image: postgres:alpine
+    restart: always
+    env_file: user-management-service/.env
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
+    ports:
+      - $POSTGRES_PORT:$POSTGRES_PORT
+    networks:
+      - internal
+
+  redis:
+    image: redis:alpine
+    restart: always
+    env_file: user-management-service/.env
+    ports:
+      - "$REDIS_PORT:$REDIS_PORT"
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+  backend:
+    driver: bridge
