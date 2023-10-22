@@ -1,4 +1,4 @@
-import { EGender } from 'src/constants/enums';
+import { EGender } from '../../constants';
 import {
   Entity,
   Column,
