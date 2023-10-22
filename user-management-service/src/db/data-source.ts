@@ -6,7 +6,7 @@ const {
   POSTGRES_PORT,
   POSTGRES_USER,
   POSTGRES_PASSWORD,
-  POSTGRES_DATABASE,
+  POSTGRES_DB,
 } = process.env;
 
 export const dbConfig: DataSourceOptions = {
@@ -16,7 +16,7 @@ export const dbConfig: DataSourceOptions = {
   port: parseInt(POSTGRES_PORT),
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
-  database: POSTGRES_DATABASE,
+  database: POSTGRES_DB,
 
   entities: [resolve(__dirname, '../**/entities/*.entity.{js,ts}')],
 
