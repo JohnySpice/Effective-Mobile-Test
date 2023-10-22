@@ -42,7 +42,7 @@ services:
   db:
     image: postgres:alpine
     restart: always
-    env_file: user-management-service/.env
+    env_file: .env
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
@@ -55,7 +55,7 @@ services:
   redis:
     image: redis:alpine
     restart: always
-    env_file: user-management-service/.env
+    env_file: .env
     ports:
       - "$REDIS_PORT:$REDIS_PORT"
     networks:
