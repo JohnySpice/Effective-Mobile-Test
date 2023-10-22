@@ -1,6 +1,6 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { resolve } from 'path';
-import 'dotenv/config';
+
 const {
   POSTGRES_HOST,
   POSTGRES_PORT,

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
 import { IHistoryRecord } from 'src/interfaces/history-record.interface';
-import 'dotenv/config';
 
 @Injectable()
 export class RedisService extends Redis {
