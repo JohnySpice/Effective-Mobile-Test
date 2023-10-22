@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config src/index.js dotenv_config_path=../.env",
+    "start:standalone": "node -r dotenv/config src/index.js",
     "start:debug": "nodemon -r dotenv/config --inspect src/index.js dotenv_config_path=../.env",
     "typeorm:cli": "typeorm -d src/db/data-source.js",
     "migration:run": "npm run typeorm:cli -- migration:run",
