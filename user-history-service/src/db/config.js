@@ -5,7 +5,7 @@ const {
   POSTGRES_PORT,
   POSTGRES_USER,
   POSTGRES_PASSWORD,
-  POSTGRES_DATABASE,
+  POSTGRES_DB,
 } = process.env;
 
 export const dbConfig = {
@@ -14,7 +14,7 @@ export const dbConfig = {
   port: parseInt(POSTGRES_PORT),
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
-  database: POSTGRES_DATABASE,
+  database: POSTGRES_DB,
   entities: [UserHistoryEntity, UserEntity],
   migrations: [process.env.PWD + '/src/migrations/*.js'],
 };
