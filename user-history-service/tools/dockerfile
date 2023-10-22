@@ -1,0 +1,6 @@
+FROM node:20-alpine
+WORKDIR /app
+
+COPY ./user-history-service/. .
+
+RUN npm ci && npm cache clean --force
