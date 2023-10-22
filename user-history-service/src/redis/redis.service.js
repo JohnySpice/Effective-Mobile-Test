@@ -1,6 +1,5 @@
 import Redis from "ioredis";
 import { create } from '../services/user-history.service.js';
-import 'dotenv/config.js';
 
 export function initializeRedis() {
   const redis = new Redis(parseInt(process.env.REDIS_PORT), process.env.REDIS_HOST);

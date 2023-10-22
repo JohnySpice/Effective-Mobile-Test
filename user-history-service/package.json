@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "start:debug": "nodemon --inspect src/index.js",
+    "start": "node -r dotenv/config src/index.js dotenv_config_path=../.env",
+    "start:debug": "nodemon -r dotenv/config --inspect src/index.js dotenv_config_path=../.env",
     "typeorm:cli": "typeorm -d src/db/data-source.js",
     "migration:run": "npm run typeorm:cli -- migration:run",
     "migration:generate": "npm run typeorm:cli -- migration:generate -o src/migrations/create"

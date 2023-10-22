@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { UserHistoryEntity, UserEntity } from '../entity/index.js';
 const {
   POSTGRES_HOST,

@@ -1,7 +1,6 @@
 import { Router } from './router.js';
 import { createServer } from 'http';
 import { URL } from 'url';
-import 'dotenv/config.js';
 import {
   ResourceNotFoundError,
   InternalError,
@@ -14,7 +13,7 @@ export class CustomServer {
   users;
   constructor() {
     this.routes = [];
-    this.PORT = process.env.PORT || '8000';
+    this.PORT = process.env.PORT_UH || '8010';
     this.start();
   }
 
